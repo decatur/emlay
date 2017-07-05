@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<style>
+
+.active {
+    opacity: 0.5;
+}
+
+svg {
+    border: 1px solid green;
+}
+
+.maschine {
+    fill: #22f !important;
+}
+
+.plant {
+    fill: #eea !important;
+    box-shadow:         3px 3px 5px 6px #ccc;
+}
+
+.maschine-in {
+    fill: red;
+}
+
+.maschine-out {
+    fill: green;
+}
+
+.plant-in {
+    fill: green;
+}
+
+.plant-out {
+    fill: red;
+}
+
+</style>
+
+
+<svg width="900" height="400" id="MY_CONTAINER" style="display:block"></svg>
+
+<button id="SHOW">Show Model</button>
+
+<textarea id="LOG" style="width:90%;height:100ex;display:block"></textarea>
+
+
+<script src="d3.v4.min.js"></script>
+<script src="embeded_layout.js"></script>
+
+<script>
+
+(function() {
+    "use strict"
+
+var templates = {
+    "park" : {},
+    "plant": {
+        "cssClass": "plant",
+        "ports": {
+            "in": {
+                "orientation": "top",
+                "cssClass": "plant-in"
+            },
+            "out": {
+                "orientation": "bottom",
+                "cssClass": "plant-out"
+            }
+        }
+    },
+    "maschine": {
+        "cssClass": "maschine",
+        "ports": {
+            "in": {
+                "orientation": "left",
+                "cssClass": "maschine-in"
+            },
+            "out": {
+                "orientation": "right",
+                "cssClass": "maschine-out"
+            }
+        }
+    }
+};
+
+var model = {
+    "nodes": {
+        "park0": {
+            "id": "park0",
+            "x": 135.78,
+            "y": 69.3,
+            "width": 302.22,
+            "height": 297.91,
+            "type": "park"
+        },
+        "park1": {
+            "id": "park1",
+            "x": 546.53,
+            "y": 70.78,
+            "width": 106.02,
+            "height": 179.97,
+            "type": "park"
+        },
+        "plant0": {
+            "id": "plant0",
+            "x": 4,
+            "y": 30,
+            "width": 294.22,
+            "height": 82.56,
+            "parentId": "park0",
+            "type": "plant"
+        },
+        "plant1": {
+            "id": "plant1",
+            "x": 4,
+            "y": 30,
+            "width": 98.02,
+            "height": 139.97,
+            "parentId": "park1",
+            "type": "plant"
+        },
+        "plant2": {
+            "id": "plant2",
+            "x": 101.56,
+            "y": 149.1,
+            "width": 98.91,
+            "height": 138.81,
+            "parentId": "park0",
+            "type": "plant"
+        },
+        "maschine0": {
+            "id": "maschine0",
+            "x": 102.4,
+            "y": 31.27,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant0",
+            "type": "maschine"
+        },
+        "maschine1": {
+            "id": "maschine1",
+            "x": 4,
+            "y": 89.97,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant1",
+            "type": "maschine"
+        },
+        "maschine2": {
+            "id": "maschine2",
+            "x": 4,
+            "y": 30,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant2",
+            "type": "maschine"
+        },
+        "maschine3": {
+            "id": "maschine3",
+            "x": 4,
+            "y": 30,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant0",
+            "type": "maschine"
+        },
+        "maschine4": {
+            "id": "maschine4",
+            "x": 4.02,
+            "y": 30,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant1",
+            "type": "maschine"
+        },
+        "maschine5": {
+            "id": "maschine5",
+            "x": 4.91,
+            "y": 88.81,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant2",
+            "type": "maschine"
+        },
+        "maschine6": {
+            "id": "maschine6",
+            "x": 200.22,
+            "y": 32.56,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant0",
+            "type": "maschine"
+        }
+    },
+    "links": {
+        "link1": {
+            "source": {
+                "id": "plant0",
+                "port": "out"
+            },
+            "target": {
+                "id": "plant2",
+                "port": "in"
+            }
+        },
+        "link2": {
+            "source": {
+                "id": "plant2",
+                "port": "out"
+            },
+            "target": {
+                "id": "plant1",
+                "port": "in"
+            }
+        },
+        "link3": {
+            "source": {
+                "id": "maschine1",
+                "port": "out"
+            },
+            "target": {
+                "id": "maschine4",
+                "port": "in"
+            }
+        }
+    }
+};
+
+var emlay = window.embedded_layout.create().model(model).nodeTypes(templates);
+emlay.show('MY_CONTAINER');
+
+document.getElementById('SHOW').onclick = function() {
+    emlay.syncModel();
+    document.getElementById('LOG').value = JSON.stringify(model, null, 4)
+}
+
+
+})()
+
+</script>
