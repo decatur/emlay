@@ -1,30 +1,12 @@
 /**
  * Inspired by https://bl.ocks.org/mbostock/22994cc97fefaeede0d861e6815a847e
- * Hierachical and linked layout
- * Related work: gojs, yworks and jointjs
- 
-<svg>
-    <g>
-        <g id="SomeId">
-            <rect/>
-            <text>group0</text>
-            ... more embedded nodes
-        </g>
-        ... more nodes
-    </g>
-    <g>
-        <line id="SomeOtherId"/>
-        ... more links
-    </g>
-</svg>
-
  */
  
 (function() {
     "use strict"
 
 window.embedded_layout = {
-    create: function(rawGraphModel) {
+    create: function() {
         return new EmbeddedLayout()
     }
 };
@@ -123,6 +105,7 @@ Port.prototype.attachPosition = function(model) {
 }
 
 function GraphModel(rawGraphModel) {
+    console.assert(typeof rawGraphModel ==='object')
     var self = this;
     this.rawGraphModel = rawGraphModel;
     this.links = {};
@@ -187,12 +170,13 @@ function EmbeddedLayout() {
     this.graphModel = undefined;
     this._nodeTemplates = undefined;
     this.nodesSelection = undefined;
-    this.svgElement;
+    this.svgElement = undefined;
     this.linksSelection = undefined;
     this.createLinkSelection = undefined;
 }
 
 EmbeddedLayout.prototype.model = function(rawGraphModel) {
+    if ( this.svgElement ) this.svgElement.textContent = ''
     this.graphModel = new GraphModel(rawGraphModel);
     return this;
 }
@@ -223,7 +207,7 @@ EmbeddedLayout.prototype.nodeTypes = function(nodeTemplates) {
     return this
 }
 
-EmbeddedLayout.prototype.syncModel = function() {
+EmbeddedLayout.prototype.writeToModel = function() {
     var graphModel = this.graphModel;
     var rawGraphModel = this.graphModel.rawGraphModel;
     
@@ -281,9 +265,9 @@ EmbeddedLayout.prototype.createShape = function(parentSelection, model) {
             }));
 
     var rect = shapeSelection.append("rect")
-        .style("fill", function(d, i) { return '#eee'; })
+        .attr("fill", function(d, i) { return '#eee'; })
         .attr("stroke-width", function(d, i) { return 2; })
-        .style("stroke", function(d, i) { return '#444'; })
+        .attr("stroke", function(d, i) { return '#444'; })
     
     if ( shapeTemplate.cssClass ) {
         rect.classed(shapeTemplate.cssClass, true)

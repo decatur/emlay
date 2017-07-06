@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<title>emlay</title>
 <meta charset="utf-8">
 <style>
 
@@ -12,12 +13,13 @@ svg {
 }
 
 .maschine {
-    fill: #22f !important;
+    fill: #aae;
+    stroke: #448;
 }
 
 .plant {
-    fill: #eea !important;
-    box-shadow:         3px 3px 5px 6px #ccc;
+    fill: #eea;
+    stroke: #884;
 }
 
 .maschine-in {
@@ -38,23 +40,165 @@ svg {
 
 </style>
 
+<h1>emlay - online shape layout editor</h1>
 
 <svg width="900" height="400" id="MY_CONTAINER" style="display:block"></svg>
 
-<button id="SHOW">Show Model</button>
+<button id="TO_JSON">Graph To JSON</button>
+<button id="TO_GRAPH">JSON To Graph</button>
 
-<textarea id="LOG" style="width:90%;height:100ex;display:block"></textarea>
-
-
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="./src/emlay.js"></script>
-
-<script>
-
-(function() {
-    "use strict"
-
-var templates = {
+<table style="width: 90%">
+    <tr><th>Model</th><th>Node Types</th></tr>
+    <tr>
+        <td>
+            <textarea id="MODEL" style="width:100%;height:100ex;">
+{
+    "nodes": {
+        "park0": {
+            "id": "park0",
+            "x": 37.78,
+            "y": 23.57,
+            "width": 352.47,
+            "height": 281.83,
+            "type": "park"
+        },
+        "park1": {
+            "id": "park1",
+            "x": 416.53,
+            "y": 25.75,
+            "width": 277.02,
+            "height": 145.03,
+            "type": "park"
+        },
+        "plant0": {
+            "id": "plant0",
+            "x": 10,
+            "y": 30,
+            "width": 332.22,
+            "height": 116.29,
+            "parentId": "park0",
+            "type": "plant"
+        },
+        "plant1": {
+            "id": "plant1",
+            "x": 10,
+            "y": 30,
+            "width": 257.02,
+            "height": 105.03,
+            "parentId": "park1",
+            "type": "plant"
+        },
+        "plant2": {
+            "id": "plant2",
+            "x": 115.56,
+            "y": 187.64,
+            "width": 226.91,
+            "height": 84.19,
+            "parentId": "park0",
+            "type": "plant"
+        },
+        "maschine0": {
+            "id": "maschine0",
+            "x": 126.4,
+            "y": 30,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant0",
+            "type": "maschine"
+        },
+        "maschine1": {
+            "id": "maschine1",
+            "x": 10,
+            "y": 30,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant1",
+            "type": "maschine"
+        },
+        "maschine2": {
+            "id": "maschine2",
+            "x": 10,
+            "y": 34.19,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant2",
+            "type": "maschine"
+        },
+        "maschine3": {
+            "id": "maschine3",
+            "x": 10,
+            "y": 55.73,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant0",
+            "type": "maschine"
+        },
+        "maschine4": {
+            "id": "maschine4",
+            "x": 157.02,
+            "y": 55.03,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant1",
+            "type": "maschine"
+        },
+        "maschine5": {
+            "id": "maschine5",
+            "x": 126.91,
+            "y": 30,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant2",
+            "type": "maschine"
+        },
+        "maschine6": {
+            "id": "maschine6",
+            "x": 232.22,
+            "y": 66.29,
+            "width": 90,
+            "height": 40,
+            "parentId": "plant0",
+            "type": "maschine"
+        }
+    },
+    "links": {
+        "link1": {
+            "source": {
+                "id": "plant0",
+                "port": "out"
+            },
+            "target": {
+                "id": "plant2",
+                "port": "in"
+            }
+        },
+        "link2": {
+            "source": {
+                "id": "plant1",
+                "port": "out"
+            },
+            "target": {
+                "id": "plant2",
+                "port": "in"
+            }
+        },
+        "link3": {
+            "source": {
+                "id": "maschine1",
+                "port": "out"
+            },
+            "target": {
+                "id": "maschine4",
+                "port": "in"
+            }
+        }
+    }
+}
+            </textarea>
+        </td>
+        <td>
+            <textarea id="NODE_TYPES" style="width:100%;height:100ex;">
+{
     "park" : {},
     "plant": {
         "cssClass": "plant",
@@ -82,158 +226,41 @@ var templates = {
             }
         }
     }
-};
-
-var model = {
-    "nodes": {
-        "park0": {
-            "id": "park0",
-            "x": 135.78,
-            "y": 69.3,
-            "width": 302.22,
-            "height": 297.91,
-            "type": "park"
-        },
-        "park1": {
-            "id": "park1",
-            "x": 546.53,
-            "y": 70.78,
-            "width": 106.02,
-            "height": 179.97,
-            "type": "park"
-        },
-        "plant0": {
-            "id": "plant0",
-            "x": 4,
-            "y": 30,
-            "width": 294.22,
-            "height": 82.56,
-            "parentId": "park0",
-            "type": "plant"
-        },
-        "plant1": {
-            "id": "plant1",
-            "x": 4,
-            "y": 30,
-            "width": 98.02,
-            "height": 139.97,
-            "parentId": "park1",
-            "type": "plant"
-        },
-        "plant2": {
-            "id": "plant2",
-            "x": 101.56,
-            "y": 149.1,
-            "width": 98.91,
-            "height": 138.81,
-            "parentId": "park0",
-            "type": "plant"
-        },
-        "maschine0": {
-            "id": "maschine0",
-            "x": 102.4,
-            "y": 31.27,
-            "width": 90,
-            "height": 40,
-            "parentId": "plant0",
-            "type": "maschine"
-        },
-        "maschine1": {
-            "id": "maschine1",
-            "x": 4,
-            "y": 89.97,
-            "width": 90,
-            "height": 40,
-            "parentId": "plant1",
-            "type": "maschine"
-        },
-        "maschine2": {
-            "id": "maschine2",
-            "x": 4,
-            "y": 30,
-            "width": 90,
-            "height": 40,
-            "parentId": "plant2",
-            "type": "maschine"
-        },
-        "maschine3": {
-            "id": "maschine3",
-            "x": 4,
-            "y": 30,
-            "width": 90,
-            "height": 40,
-            "parentId": "plant0",
-            "type": "maschine"
-        },
-        "maschine4": {
-            "id": "maschine4",
-            "x": 4.02,
-            "y": 30,
-            "width": 90,
-            "height": 40,
-            "parentId": "plant1",
-            "type": "maschine"
-        },
-        "maschine5": {
-            "id": "maschine5",
-            "x": 4.91,
-            "y": 88.81,
-            "width": 90,
-            "height": 40,
-            "parentId": "plant2",
-            "type": "maschine"
-        },
-        "maschine6": {
-            "id": "maschine6",
-            "x": 200.22,
-            "y": 32.56,
-            "width": 90,
-            "height": 40,
-            "parentId": "plant0",
-            "type": "maschine"
-        }
-    },
-    "links": {
-        "link1": {
-            "source": {
-                "id": "plant0",
-                "port": "out"
-            },
-            "target": {
-                "id": "plant2",
-                "port": "in"
-            }
-        },
-        "link2": {
-            "source": {
-                "id": "plant2",
-                "port": "out"
-            },
-            "target": {
-                "id": "plant1",
-                "port": "in"
-            }
-        },
-        "link3": {
-            "source": {
-                "id": "maschine1",
-                "port": "out"
-            },
-            "target": {
-                "id": "maschine4",
-                "port": "in"
-            }
-        }
-    }
-};
-
-var emlay = window.embedded_layout.create().model(model).nodeTypes(templates);
-emlay.show('MY_CONTAINER');
-
-document.getElementById('SHOW').onclick = function() {
-    emlay.syncModel();
-    document.getElementById('LOG').value = JSON.stringify(model, null, 4)
 }
+            </textarea>
+        </td>
+    </tr>
+</table>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<!-- Hack to work offline -->
+<script src="d3.v4.min.js"></script>
+<script src="./src/emlay.js"></script>
+
+<script>
+
+(function() {
+    "use strict"
+
+var emlay = window.embedded_layout.create();
+var model;
+
+function toGraph() {
+    var nodeTypes = JSON.parse(document.getElementById('NODE_TYPES').value);
+    model = JSON.parse(document.getElementById('MODEL').value);
+    emlay.model(model).nodeTypes(nodeTypes).show('MY_CONTAINER');
+}
+
+
+document.getElementById('TO_GRAPH').onclick = toGraph
+
+document.getElementById('TO_JSON').onclick = function() {
+    emlay.writeToModel();
+    document.getElementById('MODEL').value = JSON.stringify(model, null, 4)
+}
+
+// Initial display
+toGraph()
 
 
 })()
