@@ -176,7 +176,10 @@ function EmbeddedLayout() {
 }
 
 EmbeddedLayout.prototype.model = function(rawGraphModel) {
-    if ( this.svgElement ) this.svgElement.textContent = ''
+    if ( this.svgElement ) {
+        // Clear canvas
+        d3.select(this.svgElement).selectAll('g').remove();
+    }
     this.graphModel = new GraphModel(rawGraphModel);
     return this;
 }

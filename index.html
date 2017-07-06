@@ -4,48 +4,52 @@
 <meta charset="utf-8">
 <style>
 
-.active {
-    opacity: 0.5;
-}
+
 
 svg {
     border: 1px solid green;
-}
-
-.maschine {
-    fill: #aae;
-    stroke: #448;
-}
-
-.plant {
-    fill: #eea;
-    stroke: #884;
-}
-
-.maschine-in {
-    fill: red;
-}
-
-.maschine-out {
-    fill: green;
-}
-
-.plant-in {
-    fill: green;
-}
-
-.plant-out {
-    fill: red;
 }
 
 </style>
 
 <h1>emlay - online shape layout editor</h1>
 
-<svg width="900" height="400" id="MY_CONTAINER" style="display:block"></svg>
+<svg width="900" height="400" id="MY_CONTAINER" style="display:block;margin:1ex;">
+    <style>
+        .active {
+            opacity: 0.5;
+        }
 
-<button id="TO_JSON">Graph To JSON</button>
-<button id="TO_GRAPH">JSON To Graph</button>
+        .maschine {
+            fill: #aae;
+            stroke: #448;
+        }
+
+        .plant {
+            fill: #eea;
+            stroke: #884;
+        }
+
+        .maschine-in {
+            fill: red;
+        }
+
+        .maschine-out {
+            fill: green;
+        }
+
+        .plant-in {
+            fill: green;
+        }
+
+        .plant-out {
+            fill: red;
+        }
+    </style>
+</svg>
+
+<button id="TO_JSON">🡣Graph To JSON🡣</button>
+<button id="TO_GRAPH">🡡JSON To Graph🡡</button>
 
 <table style="width: 90%">
     <tr><th>Model</th><th>Node Types</th></tr>
