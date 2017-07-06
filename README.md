@@ -2,7 +2,7 @@
 
 See [online demo](https://decatur.github.io/emlay) for both documentation and demonstration.
 
-Input to emlay is a graph composed of nodes and links (edges). Nodes can be embedded in parent nodes. Currently only the position can be edited. Insertion or delition of nodes or links is not supported.
+Input to emlay is a graph composed of nodes and links (edges). Nodes can be embedded in parent nodes. Currently only the position can be edited. Insertion or deletion of nodes or links is not supported.
 
 ## Dependencies
 emlay uses only d3v4.js and no other third-party software.
