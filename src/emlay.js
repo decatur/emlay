@@ -1,10 +1,13 @@
 /**
- * Inspired by https://bl.ocks.org/mbostock/22994cc97fefaeede0d861e6815a847e
+ * Copyright (c) 2017-2017 Wolfgang Kuehn
+ * https://github.com/decatur/emlay/
+ * Originally inspired by https://bl.ocks.org/mbostock/22994cc97fefaeede0d861e6815a847e
  */
  
 (function() {
     "use strict"
 
+// The only exported symbol.
 window.embedded_layout = {
     create: function() {
         return new EmbeddedLayout()
