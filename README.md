@@ -6,7 +6,7 @@ Input to emlay is a graph composed of nodes and links (edges). Nodes can be embe
 Currently only the position can be edited. Insertion or deletion of nodes or links is not supported.
 
 ## Dependencies
-emlay uses only d3v4.js and no other third-party software.
+emlay is a one file library and only uses [d3v4](https://www.npmjs.com/package/d3v4) and no other third-party software.
 
 ## Related Work
 Other libraries provide online shape layout drawing, including JointJS, mxgraph and yFiles.
